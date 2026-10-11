@@ -79,3 +79,23 @@ jobs:
             PiPup.apk
             install.sh
             install.ps1
+
+      # vHA (veelti/pipup): every push to master also publishes the APK as release v<versionName>,
+      # so the TV can download it with Downloader without logging in to GitHub.
+      - name: Version name
+        if: github.ref == 'refs/heads/master'
+        id: ver
+        run: echo "name=$(grep -oP 'versionName "\K[^"]+' app/build.gradle)" >> "$GITHUB_OUTPUT"
+
+      - name: Release (master)
+        if: github.ref == 'refs/heads/master'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.ver.outputs.name }}
+          target_commitish: ${{ github.sha }}
+          name: PiPup ${{ steps.ver.outputs.name }} (vHA)
+          make_latest: true
+          files: |
+            PiPup.apk
+            install.sh
+            install.ps1
