@@ -1,3 +1,8 @@
+> **veelti/pipup** — prywatna kopia (fork) [mhoogenbosch/PiPup](https://github.com/mhoogenbosch/PiPup) dla domu vHA.
+> Zmiany względem oryginału: aplikacja sprawdza i pobiera aktualizacje **wyłącznie z tego repozytorium**
+> (`DEFAULT_SOURCE = github:veelti/pipup`), instalatory wskazują to repozytorium. APK buduje GitHub Actions
+> z tego kodu przy każdym tagu `v*`. Kod przejrzany 11.10.2026 (uprawnienia, adresy sieciowe, budowanie).
+
 # PiPup
 
 Enhanced notifications for Android TV / Fire TV — show popups (text, images, video or live camera
