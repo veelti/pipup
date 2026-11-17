@@ -18,6 +18,10 @@ full story (English and Dutch) and the APK.
   a foreground app (`ERROR_CODE_DECODING_RESOURCES_RECLAIMED`) or the stream dropped, the error was only
   logged and the picture stayed on the last frame until the popup closed. The player now re-prepares the
   same source every 3 s while the popup is up.
+### Build
+- **vHA releases are signed with one stable key** (repository secrets + `HAS_KEYSTORE`). Earlier CI
+  releases used a fresh debug key per run, so no release could be installed over another (self-update
+  and `adb install -r` failed with `INSTALL_FAILED_UPDATE_INCOMPATIBLE`); one uninstall is needed once.
 
 ## [v0.25.2] — 2026-10-10 (self-update on Android 6, for real)
 ### Fixed
