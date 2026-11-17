@@ -12,6 +12,13 @@ full story (English and Dutch) and the APK.
 - `/cancel`: the v0.24.0 change for a cancel without id is now marked breaking, in the readme and the
   v0.24.0 entry below.
 
+## [v0.25.3] — 2026-11-17 (video popup recovers from errors)
+### Fixed
+- **Video popup no longer freezes after a playback error.** When the system reclaimed the decoder for
+  a foreground app (`ERROR_CODE_DECODING_RESOURCES_RECLAIMED`) or the stream dropped, the error was only
+  logged and the picture stayed on the last frame until the popup closed. The player now re-prepares the
+  same source every 3 s while the popup is up.
+
 ## [v0.25.2] — 2026-10-10 (self-update on Android 6, for real)
 ### Fixed
 - **Bundled ISRG Root X1 now loads on Android 6** (#41). The certificate was stored as a raw-string

@@ -463,6 +463,18 @@ sealed class PopupView(context: Context, val popup: PopupProps) : LinearLayout(c
                     }
                     override fun onPlayerError(error: PlaybackException) {
                         Log.w(LOG_TAG, "ExoPlayer error for $uri: ${error.errorCodeName}", error)
+                        // The picture used to freeze on the last frame for the rest of the popup:
+                        // an error (e.g. the system reclaiming the decoder for a foreground app,
+                        // ERROR_CODE_DECODING_RESOURCES_RECLAIMED, or a dropped stream) was only
+                        // logged. Retry while the popup is still up; prepare() after an error
+                        // reconnects the same source.
+                        val player = this@apply
+                        postDelayed({
+                            if (mExoPlayer === player) {
+                                Log.i(LOG_TAG, "ExoPlayer retry for $uri")
+                                player.prepare()
+                            }
+                        }, RETRY_DELAY_MS)
                     }
                 })
                 setMediaSource(source)
@@ -761,6 +773,8 @@ sealed class PopupView(context: Context, val popup: PopupProps) : LinearLayout(c
 
     companion object {
         const val LOG_TAG = "PopupView"
+        /** Video popup: delay before re-preparing the player after a playback error. */
+        const val RETRY_DELAY_MS = 3_000L
 
         /// The WHEP player page. The endpoint URL goes in as a JSON string literal
         /// (JSONObject.quote), never spliced raw into the script.
